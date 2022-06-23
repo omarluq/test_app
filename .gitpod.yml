@@ -1,0 +1,22 @@
+image:
+  file: .gitpod.Dockerfile
+
+ports:
+  # Rails server
+  - port: 3000
+    onOpen: open-preview
+tasks: 
+  - name: install bundler
+    before: gem install bundler
+    command: |
+      bundle install
+      gp sync-done bundle
+  - name: install JS packages
+    command: yarn install
+  - name: create DB
+    command: |
+      gp sync-await bundle
+      rails db:create
+  - name: Run app
+    command: rails server
+      
